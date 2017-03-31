@@ -15,15 +15,17 @@ describe SaveMe do
 
   describe "#call" do
     before do
-      FakeFS do
-        FileUtils.mkdir_p(path)
-        FileUtils.touch(filepath)
-      end
       allow(Time).to receive(:now).and_return(time)
     end
 
-    context "when method is called" do
-      before { FakeFS { archive_file } }
+    context "when there is only one file and method is called" do
+      before do
+        FakeFS do
+          FileUtils.mkdir_p(path)
+          FileUtils.touch(filepath)
+          archive_file
+        end
+      end
 
       it "creates a directory" do
         FakeFS do
@@ -53,6 +55,33 @@ describe SaveMe do
           FakeFS do
             expect(File.file?("results/2017/3/30/09:04:55/params.json")).to eq(true)
           end
+        end
+      end
+    end
+
+    context "when there is a folder file and method is called" do
+      let(:filename) { "results" }
+      let(:file1) { "#{filepath}/file1.csv" }
+      let(:file2) { "#{filepath}/file2.csv" }
+      before do
+        FakeFS do
+          FileUtils.mkdir_p(filepath)
+          FileUtils.touch(file1)
+          FileUtils.touch(file2)
+          archive_file
+        end
+      end
+
+      it "creates a directory" do
+        FakeFS do
+          expect(File.directory?("results/2017/3/30/09:04:55/results")).to eq(true)
+        end
+      end
+
+      it "creates both files" do
+        FakeFS do
+          expect(File.file?("results/2017/3/30/09:04:55/results/file1.csv")).to eq(true)
+          expect(File.file?("results/2017/3/30/09:04:55/results/file2.csv")).to eq(true)
         end
       end
     end

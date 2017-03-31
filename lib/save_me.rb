@@ -28,7 +28,7 @@ class SaveMe
   end
 
   def copy_file
-    FileUtils.cp(filepath, new_filepath)
+    FileUtils.cp_r(filepath, new_filepath)
   end
 
   def save_params
