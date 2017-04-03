@@ -1,8 +1,6 @@
 # SaveMe
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/save_me`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+SaveMe is a gem to store your data in an organized way. Let's say you have a script that saves the results in `results` file/folder and another run of this script (accidental or not) would overwrite your previous results. This is where SaveMe comes in. You put a one-liner in your code and your data is safe and organized.
 
 ## Installation
 
@@ -22,13 +20,54 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Put this line in your code before you run your script
+```ruby
+SaveMe.call("path_to_what_you_want_to_copy", results_path: "./results", ymd: 0b110, params: { whatever: "you need here" })
+```
 
-## Development
+First argument is a path to the file/folder you want to save.
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Argument `results_path`(optional, default: "./") is a path to a folder where your results will be copied. If any directory in the path doesn't exist yet, it will be created by the gem.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Argument `ymd`(optional, default: `0b111`) is the folder structure. Notice it's in binary format. Each 1 or 0 corresponds to a letter in the `ymd`.
+* `y` - year
+* `m` - month
+* `d` - day
+
+A `1` creates a folder for a year/month/day, a `0` will put a year/month/day in the final folder name.
+
+Examples:
+* `0b111`
+```ruby
+SaveMe.call("results", results_path: "archive", ymd: 0b111, params: { test: "test" })
+```
+```
+archive/
+└── 2017
+    └── 4
+        └── 3
+            └── 10:16:18
+                ├── params.json
+                └── results
+                    └── results.json
+```
+
+* `0b110`
+```ruby
+SaveMe.call("results", results_path: "archive", ymd: 0b110, params: { test: "test" })
+```
+```
+archive/
+└── 2017
+    └── 4
+        └── 03_10:18:55
+            ├── params.json
+            └── results
+                └── results.json
+```
+
+Argument `params`(optional, default: `nil`) will be saved as json file with your results so you don't need to remember what params were used to get those particular results.
+
 
 ## Contributing
 
