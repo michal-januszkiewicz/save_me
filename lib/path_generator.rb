@@ -15,18 +15,18 @@ class PathGenerator
   end
 
   def call
-    produce_path + produce_dirname
+    File.join(produce_path, produce_dirname)
   end
 
   private
 
   def produce_path
-    str = results_path
-    str += "/" unless results_path[-1] == "/"
-    str += "#{timestamp.year}/" if year
-    str += "#{timestamp.month}/" if month
-    str += "#{timestamp.day}/" if day
-    str
+    parts = []
+    parts.push(results_path)
+    parts.push(timestamp.year.to_s) if year
+    parts.push(timestamp.month.to_s) if month
+    parts.push(timestamp.day.to_s) if day
+    File.join(*parts)
   end
 
   def produce_dirname
@@ -34,7 +34,7 @@ class PathGenerator
     str += "%Y_" unless year
     str += "%m_" unless month
     str += "%d_" unless day
-    str += "%H:%M:%S"
+    str += "%H-%M-%S"
     timestamp.strftime(str)
   end
 end

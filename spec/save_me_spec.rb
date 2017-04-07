@@ -29,20 +29,20 @@ describe SaveMe do
 
       it "creates a directory" do
         FakeFS do
-          expect(File.directory?("results/2017/3/30/09:04:55")).to eq(true)
+          expect(File.directory?("results/2017/3/30/09-04-55")).to eq(true)
         end
       end
 
       it "copies the file" do
         FakeFS do
-          expect(File.file?("results/2017/3/30/09:04:55/#{filename}")).to eq(true)
+          expect(File.file?("results/2017/3/30/09-04-55/#{filename}")).to eq(true)
         end
       end
 
       context "when params are not filled" do
         it "creates no params file" do
           FakeFS do
-            expect(File.file?("results/2017/3/30/09:04:55/params.json")).to eq(false)
+            expect(File.file?("results/2017/3/30/09-04-55/params.json")).to eq(false)
           end
         end
       end
@@ -53,7 +53,7 @@ describe SaveMe do
 
         it "creates a params file" do
           FakeFS do
-            expect(File.file?("results/2017/3/30/09:04:55/params.json")).to eq(true)
+            expect(File.file?("results/2017/3/30/09-04-55/params.json")).to eq(true)
           end
         end
       end
@@ -74,14 +74,14 @@ describe SaveMe do
 
       it "creates a directory" do
         FakeFS do
-          expect(File.directory?("results/2017/3/30/09:04:55/results")).to eq(true)
+          expect(File.directory?("results/2017/3/30/09-04-55/results")).to eq(true)
         end
       end
 
       it "creates both files" do
         FakeFS do
-          expect(File.file?("results/2017/3/30/09:04:55/results/file1.csv")).to eq(true)
-          expect(File.file?("results/2017/3/30/09:04:55/results/file2.csv")).to eq(true)
+          expect(File.file?("results/2017/3/30/09-04-55/results/file1.csv")).to eq(true)
+          expect(File.file?("results/2017/3/30/09-04-55/results/file2.csv")).to eq(true)
         end
       end
     end
